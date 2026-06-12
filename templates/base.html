@@ -15,6 +15,7 @@
 <body>
     <div class="glow"></div>
     <div class="glow-2"></div>
+    <div id="cursor-glow"></div>
 
     <header>
         <div class="container">
@@ -28,6 +29,10 @@
                     <a href="{% url 'contato' %}{% if lang != 'pt' %}?lang={{ lang }}{% endif %}">{{ texts.nav_contact }}</a>
                     <a href="?lang={% if lang == 'pt' %}en{% else %}pt{% endif %}" class="lang-toggle">{% if lang == 'pt' %}EN{% else %}PT{% endif %}</a>
                 </div>
+                <a href="{% url 'client_login' %}{% if lang != 'pt' %}?lang={{ lang }}{% endif %}" class="client-trigger">
+                    <span class="client-arrow">&gt;</span>
+                    <span class="client-label">{{ texts.nav_client }}</span>
+                </a>
             </nav>
         </div>
     </header>

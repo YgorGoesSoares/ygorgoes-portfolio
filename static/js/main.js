@@ -51,4 +51,22 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   });
+
+  // Cursor glow effect
+  const glow = document.getElementById('cursor-glow');
+  if (glow) {
+    let glowTimeout;
+    document.addEventListener('mousemove', function (e) {
+      glow.style.opacity = '1';
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+      clearTimeout(glowTimeout);
+      glowTimeout = setTimeout(() => { glow.style.opacity = '0'; }, 2000);
+    });
+    document.addEventListener('mouseleave', function () {
+      glow.style.opacity = '0';
+    });
+    // Force initial display check
+    console.log('cursor-glow initialized');
+  }
 });
