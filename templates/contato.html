@@ -30,6 +30,11 @@
             </div>
             <form class="contact-form reveal" method="post">
                 {% csrf_token %}
+                {% if sent %}
+                <div style="padding:16px;background:var(--accent-dim);border:1px solid var(--accent);border-radius:8px;margin-bottom:16px;font-size:0.9rem;color:var(--text);text-align:center">
+                    {{ texts.form_sent_ok }}
+                </div>
+                {% endif %}
                 <input type="text" name="name" placeholder="{{ texts.form_name }}" required>
                 <input type="email" name="email" placeholder="{{ texts.form_email }}" required>
                 <input type="text" name="subject" placeholder="{{ texts.form_subject }}">

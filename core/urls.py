@@ -8,4 +8,5 @@ urlpatterns = [
     path('network/', views.network, name='network'),
     path('certificacoes/', views.certificacoes, name='certificacoes'),
     path('contato/', views.contato, name='contato'),
+    path('cliente/', views.client_login, name='client_login'),
 ]

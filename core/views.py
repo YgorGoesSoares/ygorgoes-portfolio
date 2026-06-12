@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .models import Contact
 
 CERTIFICATIONS = [
     {'title': 'Análise de Sistemas e Prototipagem Web', 'org': 'FIAP',
@@ -86,7 +88,7 @@ TEXTS = {
         'hero_cta_more': 'Mais sobre mim',
         'about_label': 'Trajetória',
         'about_title': 'Sobre mim',
-        'about_sub': 'Da cobrança à engenharia de redes — minha história em tecnologia',
+        'about_sub': 'Do administrativo à engenharia de redes — minha história em tecnologia',
         'about_p1': 'Sou desenvolvedor full stack e analista de telecom na <strong>Engenharia de Redes da Vivo (Telefônica Brasil)</strong>, multinacional do grupo Telefónica Espanha. Atuo com desenvolvimento de portais web, automação de redes e integração de sistemas.',
         'about_p2': 'Trabalho diariamente com <strong>Django, Flask e Python</strong> no back-end, Vue.js no front, e consumo de <strong>pacotes NSO (Cisco)</strong> para configuração de roteadores Cisco, Nokia e Huawei. Também orquestro containers com Docker e Kubernetes.',
         'about_p3': 'Antes da Vivo, fui estagiário no time de Engenharia de Vídeo, desenvolvendo um portal Django + PostgreSQL para gestão de dados de transmissão IPTV, autenticação OAuth2.0, CRUDs e logs administrativos com Auditlog.',
@@ -97,7 +99,7 @@ TEXTS = {
         'timeline_2024': 'Estágio no time de Engenharia de Vídeo. Desenvolvimento de portal Django + PostgreSQL para gestão de dados IPTV, autenticação OAuth2.0, ETL e conformidade de dados.',
         'timeline_2023': 'Conclusão do Tecnólogo em Análise e Desenvolvimento de Sistemas na FIAP. Certificações em Java, Spring Boot e microsserviços. Voluntariado na idwall e BRQ Digital.',
         'timeline_2022': 'Início da faculdade na FIAP. Experiência em atendimento ao cliente na Elo7, desenvolvendo habilidades de comunicação e resolução de problemas.',
-        'timeline_2019': 'Primeira experiência profissional como estagiário administrativo e de cobranças na Microlins. Início do contato com o mundo corporativo.',
+        'timeline_2019': 'Primeira experiência profissional como estagiário administrativo na Microlins. Início do contato com o mundo corporativo.',
         'projects_label': 'Portfólio',
         'projects_title': 'Projetos',
         'projects_sub': 'Trabalhos pessoais e acadêmicos que desenvolvi',
@@ -149,6 +151,14 @@ TEXTS = {
         'form_subject': 'Assunto',
         'form_message': 'Sua mensagem',
         'form_send': 'Enviar mensagem',
+        'form_sent_ok': 'Mensagem enviada com sucesso! Entrarei em contato em breve.',
+        'client_title': 'Portal do Cliente',
+        'client_sub': 'Acompanhe o cronograma e desenvolvimento do seu projeto',
+        'client_email': 'Email cadastrado',
+        'client_password': 'Senha de acesso',
+        'client_button': 'Entrar no portal',
+        'client_error': 'Credenciais inválidas. Este portal é apenas para clientes com projeto ativo.',
+        'client_footer': 'Esqueceu sua senha? Entre em contato pelo email de cadastro.',
     },
     'en': {
         'nav_about': 'About',
@@ -166,7 +176,7 @@ TEXTS = {
         'hero_cta_more': 'More about me',
         'about_label': 'Journey',
         'about_title': 'About me',
-        'about_sub': "From collections to network engineering — my story in tech",
+        'about_sub': "From admin to network engineering — my story in tech",
         'about_p1': "I'm a full stack developer and telecom analyst at <strong>Vivo (Telefônica Brasil)</strong>, part of the Telefónica Spain group. I work on web portals, network automation and system integration.",
         'about_p2': 'I work daily with <strong>Django, Flask and Python</strong> on the back-end, Vue.js on the front-end, and consume <strong>NSO packages (Cisco)</strong> for configuring Cisco, Nokia and Huawei routers. I also orchestrate containers with Docker and Kubernetes.',
         'about_p3': "Before Vivo, I was an intern in the Video Engineering team, developing a Django + PostgreSQL portal for IPTV transmission data management, OAuth2.0 authentication, CRUDs and Auditlog.",
@@ -177,7 +187,7 @@ TEXTS = {
         'timeline_2024': 'Internship in Video Engineering team. Developed Django + PostgreSQL portal for IPTV data management, OAuth2.0 authentication, ETL and data compliance.',
         'timeline_2023': 'Graduated in Systems Analysis and Development from FIAP. Certifications in Java, Spring Boot and microservices. Volunteering at idwall and BRQ Digital.',
         'timeline_2022': 'Started college at FIAP. Customer service experience at Elo7, developing communication and problem-solving skills.',
-        'timeline_2019': 'First professional experience as administrative and collections intern at Microlins. First contact with the corporate world.',
+        'timeline_2019': 'First professional experience as administrative intern at Microlins. First contact with the corporate world.',
         'projects_label': 'Portfolio',
         'projects_title': 'Projects',
         'projects_sub': 'Personal and academic work I have developed',
@@ -229,6 +239,14 @@ TEXTS = {
         'form_subject': 'Subject',
         'form_message': 'Your message',
         'form_send': 'Send message',
+        'form_sent_ok': 'Message sent successfully! I will get back to you soon.',
+        'client_title': 'Client Portal',
+        'client_sub': 'Track your project schedule and development progress',
+        'client_email': 'Registered email',
+        'client_password': 'Access password',
+        'client_button': 'Access portal',
+        'client_error': 'Invalid credentials. This portal is for active clients only.',
+        'client_footer': 'Forgot your password? Contact us through your registered email.',
     }
 }
 
@@ -269,4 +287,21 @@ def certificacoes(request):
 def contato(request):
     lang = get_lang(request)
     texts = TEXTS.get(lang, TEXTS['pt'])
-    return render(request, 'contato.html', {'texts': texts, 'lang': lang})
+    sent = False
+    if request.method == 'POST':
+        Contact.objects.create(
+            name=request.POST.get('name', ''),
+            email=request.POST.get('email', ''),
+            subject=request.POST.get('subject', ''),
+            message=request.POST.get('message', ''),
+        )
+        sent = True
+    return render(request, 'contato.html', {'texts': texts, 'lang': lang, 'sent': sent})
+
+def client_login(request):
+    lang = get_lang(request)
+    texts = TEXTS.get(lang, TEXTS['pt'])
+    error = False
+    if request.method == 'POST':
+        error = True
+    return render(request, 'client_login.html', {'texts': texts, 'lang': lang, 'error': error})
