@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Ygor Goes — Full Stack Developer & Telecom Analyst{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="terminal-line">
+            <span class="terminal-prompt">$</span>
+            <span id="typing-text">whoami</span>
+            <span class="terminal-cursor"></span>
+        </div>
+        <div class="title-role">{{ texts.hero_badge }}</div>
+        <h1>{{ texts.hero_title }}<br><span>{{ texts.hero_highlight }}</span></h1>
+        <p>{{ texts.hero_sub }}</p>
+        <div class="hero-actions">
+            <a href="{% url 'projetos' %}" class="btn btn-primary">{{ texts.hero_cta_projects }} →</a>
+            <a href="{% url 'contato' %}" class="btn btn-outline">{{ texts.hero_cta_contact }}</a>
+            <a href="{% url 'sobre' %}" class="btn btn-ghost">{{ texts.hero_cta_more }} ↓</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

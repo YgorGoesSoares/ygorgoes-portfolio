@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Network Automation — Ygor Goes{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-label">{{ texts.net_label }}</div>
+            <h2 class="section-title">{{ texts.net_title }}</h2>
+            <p class="section-sub">{{ texts.net_sub }}</p>
+        </div>
+
+        <div class="network-grid">
+            <div class="network-card reveal">
+                <span class="icon">🌐</span>
+                <h3>NSO (Cisco)</h3>
+                <p>{{ texts.net_nso }}</p>
+            </div>
+            <div class="network-card reveal">
+                <span class="icon">📡</span>
+                <h3>IPTV & Transmissão</h3>
+                <p>{{ texts.net_iptv }}</p>
+            </div>
+            <div class="network-card reveal">
+                <span class="icon">🔧</span>
+                <h3>Cisco / Nokia / Huawei</h3>
+                <p>{{ texts.net_routers }}</p>
+            </div>
+            <div class="network-card reveal">
+                <span class="icon">⚡</span>
+                <h3>Automação Django</h3>
+                <p>{{ texts.net_django }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Projetos — Ygor Goes{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-label">{{ texts.projects_label }}</div>
+            <h2 class="section-title">{{ texts.projects_title }}</h2>
+            <p class="section-sub">{{ texts.projects_sub }}</p>
+        </div>
+
+        <div class="project-card reveal">
+            <h3>Back-end de Catálogo</h3>
+            <p>{{ texts.proj_catalog }}</p>
+            <div class="project-tech">
+                <span>Java</span>
+                <span>Spring Boot</span>
+                <span>Spring Security</span>
+                <span>JWT</span>
+                <span>H2</span>
+                <span>Swagger</span>
+                <span>JUnit</span>
+                <span>Mockito</span>
+            </div>
+            <a href="https://github.com/YgorGoesSoares/thecatalog-project" target="_blank" class="project-link">GitHub →</a>
+        </div>
+
+        <div class="project-card reveal">
+            <h3>Spring Security Showcase</h3>
+            <p>{{ texts.proj_sec }}</p>
+            <div class="project-tech">
+                <span>Java</span>
+                <span>Spring Boot</span>
+                <span>Spring Security</span>
+                <span>JWT</span>
+                <span>Maven</span>
+            </div>
+            <a href="https://github.com/YgorGoesSoares/spring-security-showcase" target="_blank" class="project-link">GitHub →</a>
+        </div>
+
+        <div class="project-card reveal">
+            <h3>Gerenciador de Eventos</h3>
+            <p>{{ texts.proj_events }}</p>
+            <div class="project-tech">
+                <span>Java</span>
+                <span>Spring Boot</span>
+                <span>Spring Security</span>
+                <span>JPA</span>
+                <span>H2</span>
+                <span>Lombok</span>
+                <span>JUnit</span>
+                <span>Mockito</span>
+            </div>
+            <a href="https://github.com/YgorGoesSoares/event-manager-showcase" target="_blank" class="project-link">GitHub →</a>
+        </div>
+
+        <div class="project-card reveal">
+            <h3>API de Notícias</h3>
+            <p>{{ texts.proj_news }}</p>
+            <div class="project-tech">
+                <span>Java</span>
+                <span>Spring Boot</span>
+                <span>Spring Security</span>
+                <span>JWT</span>
+                <span>MySQL</span>
+                <span>JPA</span>
+                <span>Swagger</span>
+            </div>
+            <a href="https://github.com/YgorGoesSoares/api-noticias" target="_blank" class="project-link">GitHub →</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

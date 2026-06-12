@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ygorgoes-portfolio
+    runtime: python
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn config.wsgi:application --workers=2 --bind=0.0.0.0:$PORT
+    envVars:
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com,ygorgoes.com.br,www.ygorgoes.com.br"
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true

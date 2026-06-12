@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Certificações — Ygor Goes{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-label">{{ texts.certs_label }}</div>
+            <h2 class="section-title">{{ texts.certs_title }}</h2>
+            <p class="section-sub">{{ texts.certs_sub }}</p>
+        </div>
+
+        <div class="certs-grid" id="certsGrid">
+            {% for cert in certs %}
+            <div class="flip-card reveal" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="cert-icon">{{ cert.icon }}</div>
+                        <div class="cert-name">{{ cert.title }}</div>
+                        <div class="cert-org {% if cert.org == 'FIAP' %}fiap{% elif cert.org == 'Alura' %}alura{% endif %}">{{ cert.org }}</div>
+                        <div class="cert-year">{{ texts.cert_concluded }} {{ cert.year }}</div>
+                        <div class="cert-flip-hint">{{ texts.cert_flip }}</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>{{ cert.desc }}</p>
+                        <a href="{{ cert.link }}" target="_blank" class="cert-verify-link" onclick="event.stopPropagation()">{{ texts.cert_verify }} →</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
